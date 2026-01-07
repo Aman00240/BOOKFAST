@@ -1,11 +1,12 @@
 fastapi
 uvicorn
 sqlalchemy
-aiosqlite
 asyncpg
 pydantic
+pydantic[email]
 pydantic-settings
 passlib[bcrypt]
 python-jose[cryptography]
 alembic
 psycopg2-binary
+python-multipart

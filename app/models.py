@@ -3,7 +3,7 @@ from sqlalchemy.sql import func
 from sqlalchemy import String, Integer, Numeric, ForeignKey, DateTime, Enum as SAEnum
 from datetime import datetime
 import enum
-from database import Base
+from app.database import Base
 
 
 class TicketStatus(str, enum.Enum):
@@ -15,7 +15,7 @@ class User(Base):
     __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
-    email: Mapped[str] = mapped_column(String, nullable=False)
+    email: Mapped[str] = mapped_column(String, unique=True, nullable=False)
     password: Mapped[str] = mapped_column(String, nullable=False)
 
     tickets = relationship("Ticket", back_populates="owner")

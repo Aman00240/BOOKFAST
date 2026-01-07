@@ -7,7 +7,7 @@ from pydantic import (
     FutureDatetime,
 )
 from datetime import datetime
-from models import TicketStatus
+from app.models import TicketStatus
 
 
 class UserCreate(BaseModel):
