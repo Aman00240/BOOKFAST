@@ -5,7 +5,7 @@ asyncpg
 pydantic
 pydantic[email]
 pydantic-settings
-passlib[bcrypt]
+bcrypt
 python-jose[cryptography]
 alembic
 psycopg2-binary

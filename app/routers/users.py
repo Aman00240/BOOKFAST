@@ -15,11 +15,6 @@ router = APIRouter(tags=["Authentication"])
 async def register(
     user_data: schemas.UserCreate, db: Annotated[AsyncSession, Depends(get_db)]
 ):
-    # --- ADD THESE 3 LINES ---
-    print(f"DEBUG: Type of password is: {type(user_data.password)}")
-    print(f"DEBUG: Value of password is: {user_data.password}")
-    print(f"DEBUG: Length is: {len(str(user_data.password))}")
-    # -------------------------
     existing_user = await db.scalar(
         select(models.User).where(models.User.email == user_data.email)
     )
