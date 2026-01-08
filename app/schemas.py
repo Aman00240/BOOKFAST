@@ -8,6 +8,7 @@ from pydantic import (
 )
 from datetime import datetime
 from app.models import TicketStatus
+from decimal import Decimal
 
 
 class UserCreate(BaseModel):
@@ -39,7 +40,9 @@ class EventCreate(BaseModel):
         min_length=1, description="Event name must be greater than 1 character"
     )
     date: FutureDatetime
-    ticket_price: float = Field(gt=0, description="Ticket price must be grater than 0")
+    ticket_price: Decimal = Field(
+        gt=0, description="Ticket price must be grater than 0"
+    )
     total_tickets: int = Field(gt=0, description="Total tickets must be grater than 0")
 
     @field_validator("event_name")
@@ -52,11 +55,33 @@ class EventResponse(BaseModel):
     id: int
     event_name: str
     date: datetime
-    ticket_price: float
+    ticket_price: Decimal
     total_tickets: int
     tickets_sold: int
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class EventUpdate(BaseModel):
+    event_name: str | None = Field(
+        default=None,
+        min_length=1,
+        description="Event name must be greater than 1 character",
+    )
+    date: FutureDatetime | None = None
+    ticket_price: Decimal | None = Field(
+        default=None, gt=0, description="Ticket price must be grater than 0"
+    )
+    total_tickets: int | None = Field(
+        default=None, gt=0, description="Total tickets must be grater than 0"
+    )
+
+    @field_validator("event_name")
+    @classmethod
+    def capitalize_name(cls, n):
+        if n is None:
+            return n
+        return n.strip().title()
 
 
 # ticket schema
