@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from sqlalchemy.orm import selectinload
+from sqlalchemy.orm import contains_eager
 from typing import Annotated
 
 from app import models, schemas
@@ -55,8 +55,10 @@ async def cancel_ticket(
 ):
     query = (
         select(models.Ticket)
-        .options(selectinload(models.Ticket.event))
+        .join(models.Ticket.event)
+        .options(contains_eager(models.Ticket.event))
         .where(models.Ticket.id == ticket_id)
+        .with_for_update()
     )
 
     result = await db.execute(query)
@@ -77,6 +79,5 @@ async def cancel_ticket(
     ticket.event.tickets_sold -= 1
 
     await db.commit()
-    await db.refresh(ticket)
 
     return ticket

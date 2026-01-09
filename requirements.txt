@@ -10,3 +10,6 @@ python-jose[cryptography]
 alembic
 psycopg2-binary
 python-multipart
+pytest
+httpx
+pytest-asyncio
