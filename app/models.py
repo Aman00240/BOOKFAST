@@ -35,7 +35,9 @@ class Event(Base):
     total_tickets: Mapped[int] = mapped_column(Integer)
     tickets_sold: Mapped[int] = mapped_column(Integer, default=0)
 
-    tickets = relationship("Ticket", back_populates="event")
+    tickets = relationship(
+        "Ticket", back_populates="event", cascade="all, delete-orphan"
+    )
 
 
 class Ticket(Base):
